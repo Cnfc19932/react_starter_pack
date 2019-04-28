@@ -1,4 +1,6 @@
 const webpack = require('webpack');
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
     entry: "./src/index.tsx",
@@ -9,13 +11,15 @@ module.exports = {
 
     // Enable sourcemaps for debugging webpack's output.
     devtool: "source-map",
-
     resolve: {
         // Add '.ts' and '.tsx' as resolvable extensions.
         extensions: [".ts", ".tsx", ".js", ".json"]
     },
     plugins: [
-        new webpack.HotModuleReplacementPlugin()
+        new webpack.HotModuleReplacementPlugin(),
+        new HtmlWebpackPlugin({
+          template: "./index.html"
+        })
       ],
     module: {
         rules: [
@@ -23,7 +27,21 @@ module.exports = {
             { test: /\.tsx?$/, loader: "awesome-typescript-loader" },
 
             // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
-            { enforce: "pre", test: /\.js$/, loader: "source-map-loader" }
+            { enforce: "pre", test: /\.js$/, loader: "source-map-loader" },
+            {
+                test: /\.css$/,
+                include: path.join(__dirname, 'src/components'),
+                use: [
+                  'style-loader', 
+                  {
+                    loader: 'typings-for-css-modules-loader',
+                    options: {
+                      modules: true,
+                      namedExport: true
+                    }
+                  }
+                ]
+              }
         ]
     },
 
