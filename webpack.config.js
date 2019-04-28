@@ -1,3 +1,5 @@
+const webpack = require('webpack');
+
 module.exports = {
     entry: "./src/index.tsx",
     output: {
@@ -12,7 +14,9 @@ module.exports = {
         // Add '.ts' and '.tsx' as resolvable extensions.
         extensions: [".ts", ".tsx", ".js", ".json"]
     },
-
+    plugins: [
+        new webpack.HotModuleReplacementPlugin()
+      ],
     module: {
         rules: [
             // All files with a '.ts' or '.tsx' extension will be handled by 'awesome-typescript-loader'.
