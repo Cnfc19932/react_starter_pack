@@ -4,6 +4,6 @@ docker stop $(docker ps -q -f "ancestor=project:latest")
 rm -rf node_module &&
 git fetch &&
 git pull -f &&
-docker build -t project . &&
+docker build --no-cache -t project . &&
 docker run -it -p 80:80 project:latest &&
 exit
